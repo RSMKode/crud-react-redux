@@ -10,18 +10,20 @@ import {
   TableRow,
   Title,
 } from '@tremor/react';
-
-import { useAppSelector } from '../hooks/store';
+import {  useAppSelector } from '../hooks/store';
+import { useUserActions } from '../hooks/useUserActions';
 
 export default function ListOfUsers() {
   const users = useAppSelector(state => state.users);
+  const { handleRemoveUser } = useUserActions();
+
   return (
     <Card className="">
       <Title>
-        <div className="flex gap-2">
+        <span className="flex gap-2">
           <span>Usuarios</span>
           <Badge>{users.length}</Badge>
-        </div>
+        </span>
       </Title>
       <Table>
         <TableHead>
@@ -50,8 +52,9 @@ export default function ListOfUsers() {
               <TableCell>{item.email}</TableCell>
               <TableCell>
                 <div className="flex flex-wrap gap-1">
-                  <button>
+                  <button type='button'>
                     <svg
+                      aria-label="Edit element"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -65,8 +68,11 @@ export default function ListOfUsers() {
                       />
                     </svg>
                   </button>
-                  <button>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveUser(item.id)}>
                     <svg
+                      aria-label="Remove element"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
